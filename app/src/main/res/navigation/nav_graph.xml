@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/dialogFragment">
+
+    <fragment
+        android:id="@+id/dialogFragment"
+        android:name="com.example.tucha.DialogFragment"
+        android:label="fragment_dialogs_list"
+        tools:layout="@layout/fragment_dialogs_list" />
+</navigation>
