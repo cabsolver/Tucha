@@ -15,7 +15,7 @@ class DialogViewModel(application: TuchaApplication) : ViewModel() {
     val dialogs = dialogsRepository.dialogs
 
     init {
-
+        refreshDataFromRepository()
     }
 
     private fun refreshDataFromRepository() = viewModelScope.launch {

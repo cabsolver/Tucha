@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tucha.databinding.FragmentDialogsListBinding
 import com.example.tucha.viewmodel.DialogViewModel
 
-/**
- * A fragment representing a list of Items.
- */
 class DialogFragment : Fragment() {
 
     private var columnCount = 1

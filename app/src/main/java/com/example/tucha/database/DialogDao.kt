@@ -13,6 +13,9 @@ interface DialogDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(dialog: DatabaseDialog)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(dialogs: List<DatabaseDialog>)
+
     @Query("SELECT * from dialog ORDER BY id ASC")
     fun getDialogs(): LiveData<List<DatabaseDialog>>
 }
