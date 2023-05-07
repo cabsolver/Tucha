@@ -15,6 +15,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".DialogFragment"
+        tools:context=".ui.DialogFragment"
         tools:listitem="@layout/dialog_item" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

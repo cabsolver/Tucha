@@ -1,4 +1,4 @@
-package com.example.tucha
+package com.example.tucha.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.tucha.TuchaApplication
 import com.example.tucha.databinding.FragmentDialogsListBinding
 import com.example.tucha.viewmodel.DialogViewModel
 

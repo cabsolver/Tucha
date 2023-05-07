@@ -4,12 +4,27 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.tucha.database.dao.DialogDao
+import com.example.tucha.database.dao.MessageDao
+import com.example.tucha.database.dao.ProfileDao
 import com.example.tucha.database.model.DatabaseDialog
+import com.example.tucha.database.model.DatabaseMessage
+import com.example.tucha.database.model.DatabaseProfile
 
-@Database(entities = [DatabaseDialog::class], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        DatabaseDialog::class,
+        DatabaseProfile::class,
+        DatabaseMessage::class
+    ],
+    version = 3,
+    exportSchema = false
+)
 abstract class TuchaDatabase : RoomDatabase() {
 
     abstract fun dialogDao(): DialogDao
+    abstract fun profileDao(): ProfileDao
+    abstract fun messageDao(): MessageDao
 
     companion object {
         @Volatile

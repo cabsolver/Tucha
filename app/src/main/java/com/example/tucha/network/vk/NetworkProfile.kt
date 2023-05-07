@@ -1,5 +1,6 @@
 package com.example.tucha.network.vk
 
+import com.example.tucha.database.model.DatabaseProfile
 import com.squareup.moshi.Json
 
 data class NetworkProfile(
@@ -10,3 +11,14 @@ data class NetworkProfile(
     @Json(name = "photo_50") val photoUrl: String = "",
     @Json(name = "online_info") val onlineInfo: NetworkOnlineInfo
 )
+
+fun List<NetworkProfile>.asDatabaseModel(): List<DatabaseProfile> {
+    return map {
+        DatabaseProfile(
+            id = it.id,
+            firstName = it.firstName,
+            lastName = it.lastName,
+            photoUrl = it.photoUrl
+        )
+    }
+}

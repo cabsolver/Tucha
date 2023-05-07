@@ -1,5 +1,6 @@
 package com.example.tucha.network.vk
 
+import com.example.tucha.database.model.DatabaseMessage
 import com.squareup.moshi.Json
 
 data class NetworkMessage(
@@ -12,3 +13,14 @@ data class NetworkMessage(
     @Json(name = "is_hidden") val isHidden: Boolean = false,
     @Json(name = "important") val isImportant: Boolean = false,
 )
+
+fun List<NetworkMessage>.asDatabaseModel(): List<DatabaseMessage> {
+    return map {
+        DatabaseMessage(
+            id = it.id,
+            senderId = it.fromId,
+            date = it.date,
+            text = it.text
+        )
+    }
+}

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.tucha.domain.DomainDialog
 
-@Entity(tableName = "dialog")
+@Entity(tableName = "dialogs")
 data class DatabaseDialog(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "last_message") val lastMessage: String

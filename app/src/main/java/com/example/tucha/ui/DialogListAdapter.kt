@@ -1,4 +1,4 @@
-package com.example.tucha
+package com.example.tucha.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

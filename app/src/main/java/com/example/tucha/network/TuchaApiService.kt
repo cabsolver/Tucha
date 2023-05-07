@@ -1,6 +1,7 @@
 package com.example.tucha.network
 
-import com.example.tucha.network.vk.VkResponseContainer
+import com.example.tucha.network.vk.NetworkConversationsResponseContainer
+import com.example.tucha.network.vk.NetworkHistoryResponseContainer
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -36,8 +37,16 @@ interface VkApiService {
     @GET("messages.getConversations")
     suspend fun getDialogs(
         @Query("v") version: String,
-        @Query("access_token") token: String
-    ): VkResponseContainer
+        @Query("access_token") token: String,
+        @Query("extended") extended: Int?
+    ): NetworkConversationsResponseContainer
+
+    @GET("messages.getHistory")
+    suspend fun getHistory(
+        @Query("v") version: String,
+        @Query("access_token") token: String,
+        @Query("user_id") userId: Int
+    ): NetworkHistoryResponseContainer
 }
 
 interface TelegramApiService {
