@@ -17,6 +17,7 @@ fun List<Dialog>.asDomainModel(): List<DomainDialog> {
     return map {
         DomainDialog(
             name = it.profile.firstName + " " + it.profile.lastName,
+            date = it.messages.last().date,
             lastMessage = it.messages.last().text
         )
     }

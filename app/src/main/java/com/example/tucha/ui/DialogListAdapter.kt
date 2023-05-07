@@ -32,6 +32,7 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
 
         fun bind(dialog: DomainDialog) {
             binding.dialogName.text = dialog.name
+            binding.date.text = dialog.formattedDate
             binding.lastMessage.text = dialog.lastMessage
         }
     }
