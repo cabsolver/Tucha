@@ -16,7 +16,7 @@ class DialogsRepository(private val database: TuchaDatabase) {
     private val vkVersion = "5.131"
     private val extended = 1
 
-    val dialogs: LiveData<List<DomainDialog>> = database.dialogDao().getDialogs()
+    val dialogs: LiveData<List<DomainDialog>> = database.profileDao().getDialogs()
         .map {
             it.asDomainModel()
         }

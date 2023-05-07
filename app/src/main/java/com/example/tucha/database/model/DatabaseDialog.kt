@@ -14,7 +14,7 @@ data class DatabaseDialog(
 fun List<DatabaseDialog>.asDomainModel(): List<DomainDialog> {
     return map {
         DomainDialog(
-            id = it.id,
+            name = it.id.toString(),
             lastMessage = it.lastMessage
         )
     }

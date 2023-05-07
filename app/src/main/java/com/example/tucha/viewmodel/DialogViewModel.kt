@@ -13,6 +13,7 @@ class DialogViewModel(application: TuchaApplication) : ViewModel() {
 
     private val dialogsRepository = DialogsRepository(TuchaDatabase.getDatabase(application))
     val dialogs = dialogsRepository.dialogs
+    val profiles = dialogsRepository.profiles
 
     init {
         refreshDataFromRepository()
@@ -23,8 +24,7 @@ class DialogViewModel(application: TuchaApplication) : ViewModel() {
             dialogsRepository.refreshDialogs()
             dialogsRepository.refreshHistory(173483315)
         } catch (networkError: IOException) {
-            if (dialogs.value.isNullOrEmpty())
-                TODO()
+            TODO()
         }
     }
 

@@ -31,7 +31,7 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dialog: DomainDialog) {
-            binding.dialogName.text = dialog.id.toString()
+            binding.dialogName.text = dialog.name
             binding.lastMessage.text = dialog.lastMessage
         }
     }
