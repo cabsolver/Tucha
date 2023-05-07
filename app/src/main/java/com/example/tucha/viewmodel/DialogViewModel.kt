@@ -18,7 +18,7 @@ class DialogViewModel(application: TuchaApplication) : ViewModel() {
         refreshDataFromRepository()
     }
 
-    private fun refreshDataFromRepository() = viewModelScope.launch {
+    fun refreshDataFromRepository() = viewModelScope.launch {
         try {
             dialogsRepository.refreshDialogs()
         } catch (networkError: IOException) {

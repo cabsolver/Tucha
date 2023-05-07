@@ -39,10 +39,20 @@ class DialogFragment : Fragment() {
         adapter = DialogListAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = GridLayoutManager(this.context, columnCount)
+
         viewModel.dialogs.observe(this.viewLifecycleOwner) { dialogs ->
             dialogs.let {
                 adapter.submitList(it)
             }
         }
+
+        binding.swipeRefresh.setOnRefreshListener {
+            refresh()
+        }
+    }
+
+    private fun refresh() {
+        viewModel.refreshDataFromRepository()
+        binding.swipeRefresh.isRefreshing = false
     }
 }
