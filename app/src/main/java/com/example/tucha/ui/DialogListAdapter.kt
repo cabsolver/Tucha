@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.example.tucha.databinding.DialogItemBinding
 import com.example.tucha.domain.DomainDialog
 
@@ -31,6 +33,11 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dialog: DomainDialog) {
+            if (dialog.unread != null)
+                binding.unreadCount.text = dialog.unread.toString()
+            binding.dialogPhoto.load(dialog.photoUrl) {
+                transformations(CircleCropTransformation())
+            }
             binding.dialogName.text = dialog.name
             binding.date.text = dialog.formattedDate
             binding.lastMessage.text = dialog.lastMessage

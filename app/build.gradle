@@ -67,4 +67,7 @@ dependencies {
 
     // Swipe refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
+
+    // Coil for images loading
+    implementation 'io.coil-kt:coil:2.2.2'
 }

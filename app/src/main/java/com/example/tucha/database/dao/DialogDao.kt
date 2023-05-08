@@ -5,7 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.tucha.database.model.DatabaseDialog
+import com.example.tucha.database.model.DialogPreview
 
 @Dao
 interface DialogDao {
@@ -18,4 +20,8 @@ interface DialogDao {
 
     @Query("SELECT * from dialogs ORDER BY id ASC")
     fun getDialogs(): LiveData<List<DatabaseDialog>>
+
+    @Transaction
+    @Query("SELECT * FROM dialogs")
+    fun getDialogPreviews(): LiveData<List<DialogPreview>>
 }

@@ -5,9 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.tucha.database.model.DatabaseProfile
-import com.example.tucha.database.model.Dialog
 
 @Dao
 interface ProfileDao {
@@ -20,7 +18,5 @@ interface ProfileDao {
     @Query("SELECT * FROM profiles ORDER BY last_name ASC")
     fun getProfiles(): LiveData<List<DatabaseProfile>>
 
-    @Transaction
-    @Query("SELECT * FROM profiles")
-    fun getDialogs(): LiveData<List<Dialog>>
+
 }

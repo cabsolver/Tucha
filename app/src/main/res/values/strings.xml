@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Tucha</string>
+    <string name="dialog_photo_content">photo</string>
 </resources>

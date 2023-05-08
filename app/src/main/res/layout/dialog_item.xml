@@ -4,22 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="18dp">
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/dialog_photo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="@string/dialog_photo_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/dialog_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_margin_medium"
+        android:layout_marginTop="@dimen/text_margin_small"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dialog_photo"
+        app:layout_constraintTop_toTopOf="@+id/dialog_photo"
         tools:text="@tools:sample/full_names" />
 
     <TextView
         android:id="@+id/last_message"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="?attr/textAppearanceBodyLarge"
+        app:layout_constraintEnd_toStartOf="@+id/date"
         app:layout_constraintStart_toStartOf="@+id/dialog_name"
         app:layout_constraintTop_toBottomOf="@+id/dialog_name"
         tools:text="@tools:sample/lorem/random" />
@@ -28,9 +46,22 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dialog_name"
         tools:text="@tools:sample/date/hhmm" />
+
+    <TextView
+        android:id="@+id/unread_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintBottom_toBottomOf="@+id/last_message"
+        app:layout_constraintEnd_toEndOf="@id/date"
+        app:layout_constraintTop_toTopOf="@id/last_message"
+        tools:text="1" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

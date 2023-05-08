@@ -22,7 +22,6 @@ class DialogViewModel(application: TuchaApplication) : ViewModel() {
     fun refreshDataFromRepository() = viewModelScope.launch {
         try {
             dialogsRepository.refreshDialogs()
-            dialogsRepository.refreshHistory(173483315)
         } catch (networkError: IOException) {
             TODO()
         }

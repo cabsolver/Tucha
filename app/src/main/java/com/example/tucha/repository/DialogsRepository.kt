@@ -16,7 +16,7 @@ class DialogsRepository(private val database: TuchaDatabase) {
     private val vkVersion = "5.131"
     private val extended = 1
 
-    val dialogs: LiveData<List<DomainDialog>> = database.profileDao().getDialogs()
+    val dialogs: LiveData<List<DomainDialog>> = database.dialogDao().getDialogPreviews()
         .map {
             it.asDomainModel()
         }
@@ -31,15 +31,17 @@ class DialogsRepository(private val database: TuchaDatabase) {
         withContext(Dispatchers.IO) {
             val response = TuchaApi.vkClient.getDialogs(vkVersion, token, extended).response
             database.dialogDao().insertAll(response.items.asDatabaseModel())
-            database.profileDao().insertAll(response.profiles!!.asDatabaseModel())
-
+            database.profileDao().insertAll(response.profiles.asDatabaseModel())
+            response.profiles.forEach {
+                val historyResponse = TuchaApi.vkClient.getHistory(vkVersion, token, it.id).response
+                database.messageDao().insertAll(historyResponse.items.asDatabaseModel())
+            }
         }
     }
 
-    suspend fun refreshHistory(userId: Int) {
+    suspend fun refreshHistory() {
         withContext(Dispatchers.IO) {
-            val response = TuchaApi.vkClient.getHistory(vkVersion, token, userId).response
-            database.messageDao().insertAll(response.items.asDatabaseModel())
+
         }
     }
 }

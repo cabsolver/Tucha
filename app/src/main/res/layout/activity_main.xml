@@ -10,6 +10,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="?attr/actionBarSize"/>
 
     <androidx.fragment.app.FragmentContainerView
