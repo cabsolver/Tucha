@@ -9,5 +9,15 @@
         android:id="@+id/dialogFragment"
         android:name="com.example.tucha.ui.DialogFragment"
         android:label="Messages"
-        tools:layout="@layout/fragment_dialogs_list" />
+        tools:layout="@layout/fragment_dialogs_list" >
+        <action
+            android:id="@+id/action_dialogFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.example.tucha.ui.MessagesFragment"
+        android:label="User"
+        tools:layout="@layout/fragment_messages"/>
 </navigation>

@@ -3,17 +3,17 @@ package com.example.tucha.domain
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-data class DomainDialog(
+data class DomainMessage(
     val id: Int,
-    val name: String,
-    val photoUrl: String,
+    val out: Int,
     val date: Long,
-    val lastMessage: String,
-    val unread: Int?
-) {
+    val text: String
+    ) {
+
+
     val formattedDate: String
         get() {
             val formatter = SimpleDateFormat("MMM d", Locale.US)
-            return formatter.format(date*1000)
+            return formatter.format(date * 1000)
         }
 }

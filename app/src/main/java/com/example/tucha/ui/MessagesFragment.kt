@@ -7,32 +7,37 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.tucha.TuchaApplication
-import com.example.tucha.databinding.FragmentDialogsListBinding
+import com.example.tucha.databinding.FragmentMessagesBinding
 import com.example.tucha.viewmodel.DialogViewModel
 
-class DialogFragment : Fragment() {
+class MessagesFragment : Fragment() {
 
+    private var columnCount = 1
     private val viewModel: DialogViewModel by activityViewModels {
         DialogViewModel.DialogViewModelFactory(
             activity?.application as TuchaApplication
         )
     }
 
-    private var _binding: FragmentDialogsListBinding? = null
+    private var _binding: FragmentMessagesBinding? = null
     private val binding get() = _binding!!
 
+    override fun onStart() {
+        super.onStart()
+        refresh()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDialogsListBinding.inflate(inflater, container, false)
+        _binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
-        val adapter = DialogListAdapter()
+        val adapter = MessagesListAdapter()
         binding.recyclerView.adapter = adapter
 
-        viewModel.dialogs.observe(this.viewLifecycleOwner) { dialogs ->
-            dialogs.let {
+        viewModel.messages.observe(this.viewLifecycleOwner) { messages ->
+            messages.let {
                 adapter.submitList(it)
             }
         }
@@ -44,7 +49,7 @@ class DialogFragment : Fragment() {
     }
 
     private fun refresh() {
-        viewModel.refreshDialogsFromRepo()
+        viewModel.refreshMessagesFromRepo()
         binding.swipeRefresh.isRefreshing = false
     }
 }

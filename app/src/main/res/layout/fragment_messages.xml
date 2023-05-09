@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,13 +8,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:name="com.example.tucha.DialogFragment"
+        android:name="com.example.tucha.MessagesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:layoutManager="GridLayoutManager"
         app:spanCount="1"
-        tools:context=".ui.DialogFragment"
-        tools:listitem="@layout/dialog_item" />
+        app:reverseLayout="true"
+        tools:context=".ui.MessagesFragment"
+        tools:listitem="@layout/message_item" />
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

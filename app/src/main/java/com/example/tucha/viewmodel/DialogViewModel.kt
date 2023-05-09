@@ -6,22 +6,37 @@ import androidx.lifecycle.viewModelScope
 import com.example.tucha.TuchaApplication
 import com.example.tucha.database.TuchaDatabase
 import com.example.tucha.repository.DialogsRepository
+import com.example.tucha.repository.MessagesRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class DialogViewModel(application: TuchaApplication) : ViewModel() {
 
-    private val dialogsRepository = DialogsRepository(TuchaDatabase.getDatabase(application))
+    private val database = TuchaDatabase.getDatabase(application)
+
+    private val dialogsRepository = DialogsRepository(database)
+    private val messagesRepository = MessagesRepository(database)
+
     val dialogs = dialogsRepository.dialogs
-    val profiles = dialogsRepository.profiles
+//    var currentDialog: DomainDialog? = dialogs.value?.first()
+    val messages = messagesRepository.getMessages(173483315)
+
 
     init {
-        refreshDataFromRepository()
+        refreshDialogsFromRepo()
     }
 
-    fun refreshDataFromRepository() = viewModelScope.launch {
+    fun refreshDialogsFromRepo() = viewModelScope.launch {
         try {
             dialogsRepository.refreshDialogs()
+        } catch (networkError: IOException) {
+            TODO()
+        }
+    }
+
+    fun refreshMessagesFromRepo() = viewModelScope.launch {
+        try {
+            messagesRepository.refreshMessages(173483315)
         } catch (networkError: IOException) {
             TODO()
         }

@@ -21,6 +21,7 @@ data class DialogPreview(
 fun List<DialogPreview>.asDomainModel(): List<DomainDialog> {
     return map {
         DomainDialog(
+            id = it.dialog.id,
             name = it.user.firstName + " " + it.user.lastName,
             lastMessage = it.lastMessage?.text ?: "",
             date = it.lastMessage?.date ?: 0,

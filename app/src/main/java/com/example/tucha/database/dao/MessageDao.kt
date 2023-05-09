@@ -16,5 +16,9 @@ interface MessageDao {
     suspend fun insertAll(messages: List<DatabaseMessage>)
 
     @Query("SELECT * FROM messages ORDER BY date DESC")
-    fun getMessages(): LiveData<List<DatabaseMessage>>
+    fun getAllMessages(): LiveData<List<DatabaseMessage>>
+
+    @Query("SELECT * FROM messages WHERE user_id = :userId ORDER BY date DESC")
+    fun getMessagesForDialog(userId: Int): LiveData<List<DatabaseMessage>>
+
 }

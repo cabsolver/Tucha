@@ -21,7 +21,7 @@ class DialogsRepository(private val database: TuchaDatabase) {
             it.asDomainModel()
         }
 
-    val profiles: LiveData<List<DomainProfile>> = database.profileDao().getProfiles()
+    val messages: LiveData<List<DomainProfile>> = database.profileDao().getProfiles()
         .map {
             it.asDomainModel()
         }

@@ -3,6 +3,7 @@ package com.example.tucha.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.tucha.domain.DomainMessage
 
 @Entity(tableName = "messages")
 data class DatabaseMessage(
@@ -12,3 +13,14 @@ data class DatabaseMessage(
     @ColumnInfo(name = "date") val date: Long,
     @ColumnInfo(name = "text") val text: String
 )
+
+fun List<DatabaseMessage>.asDomainModel(): List<DomainMessage> {
+    return map {
+        DomainMessage(
+            id = it.id,
+            out = it.out,
+            date = it.date,
+            text = it.text
+        )
+    }
+}
