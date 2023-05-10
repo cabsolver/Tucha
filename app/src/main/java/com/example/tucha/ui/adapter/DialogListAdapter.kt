@@ -1,7 +1,8 @@
-package com.example.tucha.ui
+package com.example.tucha.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -47,8 +48,12 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
             binding.lastMessage.text = dialog.lastMessage
 
             binding.clickableOverlay.setOnClickListener {
+                val bundle = bundleOf(
+                    "dialog_id" to dialog.id,
+                    "dialog_name" to dialog.name
+                )
                 binding.root.findNavController()
-                    .navigate(R.id.action_dialogFragment_to_messagesFragment)
+                    .navigate(R.id.action_dialogFragment_to_messagesFragment, bundle)
             }
         }
     }

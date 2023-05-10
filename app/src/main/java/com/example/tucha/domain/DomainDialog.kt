@@ -16,4 +16,17 @@ data class DomainDialog(
             val formatter = SimpleDateFormat("MMM d", Locale.US)
             return formatter.format(date*1000)
         }
+
+    companion object {
+        fun empty(): DomainDialog {
+            return DomainDialog(
+                id = 0,
+                name = "None",
+                photoUrl = "",
+                date = 0,
+                lastMessage = "None",
+                unread = null
+            )
+        }
+    }
 }

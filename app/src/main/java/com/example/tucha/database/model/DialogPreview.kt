@@ -10,12 +10,7 @@ data class DialogPreview(
         parentColumn = "user_id",
         entityColumn = "id"
     )
-    val user: DatabaseProfile,
-    @Relation(
-        parentColumn = "last_message_id",
-        entityColumn = "id",
-    )
-    val lastMessage: DatabaseMessage?
+    val user: DatabaseProfile
 )
 
 fun List<DialogPreview>.asDomainModel(): List<DomainDialog> {
@@ -23,10 +18,10 @@ fun List<DialogPreview>.asDomainModel(): List<DomainDialog> {
         DomainDialog(
             id = it.dialog.id,
             name = it.user.firstName + " " + it.user.lastName,
-            lastMessage = it.lastMessage?.text ?: "",
-            date = it.lastMessage?.date ?: 0,
+            photoUrl = it.user.photoUrl,
             unread = it.dialog.unreadCount,
-            photoUrl = it.user.photoUrl
+            lastMessage = it.dialog.lastMessageText,
+            date = it.dialog.lastMessageDate
         )
     }
 }

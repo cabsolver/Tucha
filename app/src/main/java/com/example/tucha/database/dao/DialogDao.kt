@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.tucha.database.model.DatabaseDialog
 import com.example.tucha.database.model.DialogPreview
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DialogDao {
@@ -22,6 +23,6 @@ interface DialogDao {
     fun getDialogs(): LiveData<List<DatabaseDialog>>
 
     @Transaction
-    @Query("SELECT * FROM dialogs")
-    fun getDialogPreviews(): LiveData<List<DialogPreview>>
+    @Query("SELECT * FROM dialogs ORDER BY last_message_date DESC")
+    fun getDialogPreviews(): Flow<List<DialogPreview>>
 }

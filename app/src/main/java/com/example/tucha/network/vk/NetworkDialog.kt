@@ -18,7 +18,8 @@ fun List<NetworkDialogContainer>.asDatabaseModel(): List<DatabaseDialog> {
             id = it.dialog.peer.id,
             userId = it.dialog.peer.id,
             unreadCount = it.dialog.unreadCount,
-            lastMessageId = it.dialog.lastMessageId
+            lastMessageText = it.lastMessage.text,
+            lastMessageDate = it.lastMessage.date
         )
     }
 }

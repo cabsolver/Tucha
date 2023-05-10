@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.tucha.database.model.DatabaseMessage
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MessageDao {
@@ -19,6 +20,6 @@ interface MessageDao {
     fun getAllMessages(): LiveData<List<DatabaseMessage>>
 
     @Query("SELECT * FROM messages WHERE user_id = :userId ORDER BY date DESC")
-    fun getMessagesForDialog(userId: Int): LiveData<List<DatabaseMessage>>
+    fun getMessagesForDialog(userId: Int): Flow<List<DatabaseMessage>>
 
 }

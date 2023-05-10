@@ -9,7 +9,8 @@ data class DatabaseDialog(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "unread_count") val unreadCount: Int?,
-    @ColumnInfo(name = "last_message_id") val lastMessageId: Int
+    @ColumnInfo(name = "last_message_text") val lastMessageText: String,
+    @ColumnInfo(name = "last_message_date") val lastMessageDate: Long
 )
 
 //fun List<DatabaseDialog>.asDomainModel(): List<DomainDialog> {

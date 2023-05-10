@@ -17,7 +17,7 @@ import com.example.tucha.database.model.DatabaseProfile
         DatabaseProfile::class,
         DatabaseMessage::class
     ],
-    version = 5,
+    version = 7,
     exportSchema = false
 )
 abstract class TuchaDatabase : RoomDatabase() {
@@ -31,16 +31,12 @@ abstract class TuchaDatabase : RoomDatabase() {
         private var INSTANCE: TuchaDatabase? = null
 
         fun getDatabase(context: Context): TuchaDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     TuchaDatabase::class.java,
-                    "item_database"
+                    "tucha_database"
                 )
-                    // Wipes and rebuilds instead of migrating if no Migration object.
-                    // Migration is not part of this codelab.
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

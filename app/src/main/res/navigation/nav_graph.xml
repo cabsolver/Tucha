@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dialogFragment"
-        android:name="com.example.tucha.ui.DialogFragment"
+        android:name="com.example.tucha.ui.fragment.DialogFragment"
         android:label="Messages"
         tools:layout="@layout/fragment_dialogs_list" >
         <action
@@ -17,7 +17,16 @@
 
     <fragment
         android:id="@+id/messagesFragment"
-        android:name="com.example.tucha.ui.MessagesFragment"
-        android:label="User"
-        tools:layout="@layout/fragment_messages"/>
+        android:name="com.example.tucha.ui.fragment.MessagesFragment"
+        android:label="Dialog"
+        tools:layout="@layout/fragment_messages">
+        <argument
+            android:name="dialog_id"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="dialog_name"
+            app:argType="string"
+            android:defaultValue="None" />
+    </fragment>
 </navigation>
