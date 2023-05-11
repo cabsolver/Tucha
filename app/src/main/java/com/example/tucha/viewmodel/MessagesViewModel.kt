@@ -18,12 +18,17 @@ class MessagesViewModel(
     var messages: Flow<List<DomainMessage>> =
         messagesRepository.getMessagesForDialog(dialogId)
 
-    init {
+    fun refreshMessagesFromRepo(userId: Int, count: Int, offset: Int) = viewModelScope.launch {
+        try {
+            messagesRepository.refreshMessages(userId, count, offset)
+        } catch (networkError: IOException) {
+            Log.d("DialogTest", networkError.message!!)
+        }
     }
 
-    fun refreshMessagesFromRepo(userId: Int) = viewModelScope.launch {
+    fun sendTextMessage(userId: Int, message: String) = viewModelScope.launch {
         try {
-            messagesRepository.refreshMessages(userId)
+            messagesRepository.sendTextMessage(userId, message)
         } catch (networkError: IOException) {
             Log.d("DialogTest", networkError.message!!)
         }

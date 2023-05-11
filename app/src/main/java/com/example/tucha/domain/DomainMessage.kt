@@ -11,9 +11,9 @@ data class DomainMessage(
     ) {
 
 
-    val formattedDate: String
+    val formattedTimestamp: String
         get() {
-            val formatter = SimpleDateFormat("MMM d", Locale.US)
+            val formatter = SimpleDateFormat("HH:mm", Locale.US)
             return formatter.format(date * 1000)
         }
 }

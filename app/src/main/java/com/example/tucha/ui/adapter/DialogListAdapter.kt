@@ -16,7 +16,6 @@ import com.example.tucha.domain.DomainDialog
 class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         return ViewHolder(
             DialogItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -24,7 +23,6 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -36,24 +34,35 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dialog: DomainDialog) {
-            if (dialog.unread != null)
-                binding.unreadCount.text = dialog.unread.toString()
 
-            binding.dialogPhoto.load(dialog.photoUrl) {
-                transformations(CircleCropTransformation())
-            }
+            binding.apply {
 
-            binding.dialogName.text = dialog.name
-            binding.date.text = dialog.formattedDate
-            binding.lastMessage.text = dialog.lastMessage
+                if (dialog.unread != null)
+                    unreadCount.text = dialog.unread.toString()
 
-            binding.clickableOverlay.setOnClickListener {
-                val bundle = bundleOf(
-                    "dialog_id" to dialog.id,
-                    "dialog_name" to dialog.name
-                )
-                binding.root.findNavController()
-                    .navigate(R.id.action_dialogFragment_to_messagesFragment, bundle)
+                dialogPhoto.load(dialog.photoUrl) {
+                    transformations(CircleCropTransformation())
+                }
+
+                dialogName.text = dialog.name
+                date.text = dialog.formattedDate
+                lastMessage.text = dialog.lastMessage
+
+                when (dialog.messengerType) {
+                    "telegram" -> dialogMessengerType.setImageResource(R.drawable.ic_telegram_24)
+                    "vk" -> dialogMessengerType.setImageResource(R.drawable.ic_vk_24)
+                    else -> dialogMessengerType.setImageResource(R.drawable.ic_send_24)
+                }
+
+
+                clickableOverlay.setOnClickListener {
+                    val bundle = bundleOf(
+                        "dialog_id" to dialog.id,
+                        "dialog_name" to dialog.name
+                    )
+                    root.findNavController()
+                        .navigate(R.id.action_dialogFragment_to_messagesFragment, bundle)
+                }
             }
         }
     }

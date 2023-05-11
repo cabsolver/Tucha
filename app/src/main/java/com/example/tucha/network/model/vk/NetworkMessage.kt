@@ -1,4 +1,4 @@
-package com.example.tucha.network.vk
+package com.example.tucha.network.model.vk
 
 import com.example.tucha.database.model.DatabaseMessage
 import com.squareup.moshi.Json

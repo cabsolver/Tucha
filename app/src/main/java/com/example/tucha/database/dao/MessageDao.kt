@@ -1,6 +1,5 @@
 package com.example.tucha.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,10 +15,13 @@ interface MessageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(messages: List<DatabaseMessage>)
 
-    @Query("SELECT * FROM messages ORDER BY date DESC")
-    fun getAllMessages(): LiveData<List<DatabaseMessage>>
+    @Query("DELETE FROM messages WHERE user_id = :dialogId")
+    suspend fun deleteDialogHistory(dialogId: Int)
 
-    @Query("SELECT * FROM messages WHERE user_id = :userId ORDER BY date DESC")
-    fun getMessagesForDialog(userId: Int): Flow<List<DatabaseMessage>>
+    @Query("SELECT * FROM messages ORDER BY date DESC")
+    fun getAllMessages(): Flow<List<DatabaseMessage>>
+
+    @Query("SELECT * FROM messages WHERE user_id = :dialogId ORDER BY date DESC")
+    fun getMessagesForDialog(dialogId: Int): Flow<List<DatabaseMessage>>
 
 }

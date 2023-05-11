@@ -21,7 +21,8 @@ fun List<DialogPreview>.asDomainModel(): List<DomainDialog> {
             photoUrl = it.user.photoUrl,
             unread = it.dialog.unreadCount,
             lastMessage = it.dialog.lastMessageText,
-            date = it.dialog.lastMessageDate
+            date = it.dialog.lastMessageDate,
+            messengerType = it.dialog.messengerType
         )
     }
 }

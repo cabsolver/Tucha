@@ -17,7 +17,7 @@ import com.example.tucha.database.model.DatabaseProfile
         DatabaseProfile::class,
         DatabaseMessage::class
     ],
-    version = 7,
+    version = 9,
     exportSchema = false
 )
 abstract class TuchaDatabase : RoomDatabase() {

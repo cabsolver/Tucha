@@ -1,4 +1,4 @@
-package com.example.tucha.network.vk
+package com.example.tucha.network.model.vk
 
 import com.example.tucha.database.model.DatabaseDialog
 import com.squareup.moshi.Json
@@ -19,7 +19,8 @@ fun List<NetworkDialogContainer>.asDatabaseModel(): List<DatabaseDialog> {
             userId = it.dialog.peer.id,
             unreadCount = it.dialog.unreadCount,
             lastMessageText = it.lastMessage.text,
-            lastMessageDate = it.lastMessage.date
+            lastMessageDate = it.lastMessage.date,
+            messengerType = "vk"
         )
     }
 }

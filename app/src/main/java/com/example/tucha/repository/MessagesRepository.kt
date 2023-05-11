@@ -3,8 +3,9 @@ package com.example.tucha.repository
 import com.example.tucha.database.TuchaDatabase
 import com.example.tucha.database.model.asDomainModel
 import com.example.tucha.domain.DomainMessage
-import com.example.tucha.network.VkApiService
-import com.example.tucha.network.vk.asDatabaseModel
+import com.example.tucha.network.TuchaApi.vkClient
+import com.example.tucha.network.api.VkApiService
+import com.example.tucha.network.model.vk.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -25,10 +26,19 @@ class MessagesRepository(
             }
     }
 
-    suspend fun refreshMessages(dialogId: Int) {
+    suspend fun refreshMessages(dialogId: Int, count: Int, offset: Int) {
         withContext(Dispatchers.IO) {
-                val historyResponse = vkRemoteDataSource.getHistory(vkVersion, token, dialogId).response
-                localDataSource.messageDao().insertAll(historyResponse.items.asDatabaseModel())
+                val historyResponse = vkRemoteDataSource
+                    .getHistory(vkVersion, token, dialogId, count, offset).response
+
+                localDataSource.messageDao()
+                    .insertAll(historyResponse.items.asDatabaseModel())
+        }
+    }
+
+    suspend fun sendTextMessage(userId: Int, message: String) {
+        withContext(Dispatchers.IO) {
+            vkClient.sendTextMessage(vkVersion, token, userId, message = message)
         }
     }
 }

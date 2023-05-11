@@ -10,16 +10,6 @@ data class DatabaseDialog(
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "unread_count") val unreadCount: Int?,
     @ColumnInfo(name = "last_message_text") val lastMessageText: String,
-    @ColumnInfo(name = "last_message_date") val lastMessageDate: Long
+    @ColumnInfo(name = "last_message_date") val lastMessageDate: Long,
+    @ColumnInfo(name = "messenger_type") val messengerType: String
 )
-
-//fun List<DatabaseDialog>.asDomainModel(): List<DomainDialog> {
-//    return map {
-//        DomainDialog(
-////            name = it.user.firstName + " " + it.user.lastName,
-//            name = it.id.toString(),
-//            lastMessage = it.lastMessageId.toString(),
-//            date = it.lastMessageId.toLong()
-//        )
-//    }
-//}
