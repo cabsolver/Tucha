@@ -26,7 +26,8 @@ class DialogFragment : Fragment() {
         DialogViewModel.DialogViewModelFactory(
             DialogsRepository(
                 app.database,
-                TuchaApi.vkClient
+                TuchaApi.vkClient,
+                TuchaApi.telegramClient
             )
         )
     }

@@ -25,7 +25,8 @@ class MessagesFragment : Fragment() {
         MessagesViewModel.MessagesViewModelFactory(
             MessagesRepository(
                 app.database,
-                TuchaApi.vkClient
+                TuchaApi.vkClient,
+                TuchaApi.telegramClient
             ),
             arguments?.getInt("dialog_id")!!
         )

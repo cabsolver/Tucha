@@ -9,7 +9,7 @@ import com.example.tucha.domain.DomainProfile
 data class DatabaseProfile(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "first_name") val firstName: String,
-    @ColumnInfo(name = "last_name") val lastName: String,
+    @ColumnInfo(name = "last_name") val lastName: String = "",
     @ColumnInfo(name = "photo_url") val photoUrl: String = ""
 )
 
