@@ -22,13 +22,14 @@ import kotlinx.coroutines.launch
 class MessagesFragment : Fragment() {
     private val viewModel: MessagesViewModel by viewModels {
         val app = (activity?.application) as TuchaApplication
+        val currentDialog = arguments?.let { MessagesFragmentArgs.fromBundle(it).dialog }
         MessagesViewModel.MessagesViewModelFactory(
             MessagesRepository(
                 app.database,
                 TuchaApi.vkClient,
                 TuchaApi.telegramClient
             ),
-            arguments?.getInt("dialog_id")!!
+            currentDialog!!
         )
     }
 
@@ -39,9 +40,14 @@ class MessagesFragment : Fragment() {
     private var offset: Int = count
     private val refreshFrequency = 3000L
 
+    override fun onStart() {
+        super.onStart()
+
+    }
+
     override fun onResume() {
         super.onResume()
-        refresh(viewModel.dialogId, count, 0)
+        refresh(count, 0)
     }
 
     override fun onCreateView(
@@ -57,7 +63,7 @@ class MessagesFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 while (true) {
-                    refresh(viewModel.dialogId, 5, 0)
+                    refresh(5, 0)
                     delay(refreshFrequency)
                 }
             }
@@ -70,7 +76,7 @@ class MessagesFragment : Fragment() {
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            refresh(viewModel.dialogId, count, offset)
+            refresh(count, offset)
             offset += count
             binding.swipeRefresh.isRefreshing = false
         }
@@ -81,15 +87,15 @@ class MessagesFragment : Fragment() {
         return binding.root
     }
 
-    private fun refresh(id: Int, count: Int, offset: Int) {
-        viewModel.refreshMessagesFromRepo(id, count, offset)
+    private fun refresh(count: Int, offset: Int) {
+        viewModel.refreshMessagesFromRepo(count, offset)
     }
 
     private fun sendMessage() {
         val message = binding.textInput.text.toString()
         if (message.isNotBlank()) {
-            viewModel.sendTextMessage(viewModel.dialogId, message)
-            refresh(viewModel.dialogId, count, 0)
+            viewModel.sendTextMessage(message)
+            refresh(count, 0)
             binding.textInput.setText("")
         } else {
             Toast.makeText(context, "Please enter message first!", Toast.LENGTH_SHORT)

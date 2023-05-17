@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.tucha.R
 import com.example.tucha.databinding.DialogItemBinding
 import com.example.tucha.domain.DomainDialog
@@ -40,8 +39,10 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
                 if (dialog.unread != null)
                     unreadCount.text = dialog.unread.toString()
 
-                dialogPhoto.load(dialog.photoUrl) {
-                    transformations(CircleCropTransformation())
+                if (dialog.photoUrl == "") {
+                    dialogPhoto.setImageResource(R.mipmap.ic_avatar)
+                } else {
+                    dialogPhoto.load(dialog.photoUrl)
                 }
 
                 dialogName.text = dialog.name
@@ -57,8 +58,7 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
 
                 clickableOverlay.setOnClickListener {
                     val bundle = bundleOf(
-                        "dialog_id" to dialog.id,
-                        "dialog_name" to dialog.name
+                        "dialog" to dialog
                     )
                     root.findNavController()
                         .navigate(R.id.action_dialogFragment_to_messagesFragment, bundle)

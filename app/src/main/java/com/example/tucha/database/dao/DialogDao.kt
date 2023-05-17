@@ -19,6 +19,11 @@ interface DialogDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(dialogs: List<DatabaseDialog>)
 
+    @Query("""UPDATE dialogs
+        SET last_message_text = :text, last_message_date = :date
+        WHERE user_id = :dialogId""")
+    suspend fun update(dialogId: Int, text: String, date: Long)
+
     @Query("SELECT * from dialogs ORDER BY id ASC")
     fun getDialogs(): LiveData<List<DatabaseDialog>>
 

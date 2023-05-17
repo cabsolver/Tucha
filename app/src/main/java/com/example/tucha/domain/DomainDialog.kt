@@ -1,8 +1,11 @@
 package com.example.tucha.domain
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+@Parcelize
 data class DomainDialog(
     val id: Int,
     val name: String,
@@ -11,7 +14,7 @@ data class DomainDialog(
     val lastMessage: String,
     val unread: Int?,
     val messengerType: String
-) {
+) : Parcelable {
     val formattedDate: String
         get() {
             val formatter = SimpleDateFormat("MMM d", Locale.US)

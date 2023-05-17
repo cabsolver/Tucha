@@ -9,11 +9,12 @@
     android:paddingEnd="16dp"
     android:paddingBottom="8dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/dialog_photo"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/dialog_photo_content"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

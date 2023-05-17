@@ -7,7 +7,7 @@ import com.example.tucha.domain.DomainMessage
 
 @Entity(tableName = "messages")
 data class DatabaseMessage(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "out") val out: Int,
     @ColumnInfo(name = "date") val date: Long,
