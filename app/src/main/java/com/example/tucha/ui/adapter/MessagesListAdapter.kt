@@ -1,5 +1,6 @@
 package com.example.tucha.ui.adapter
 
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tucha.databinding.MessageItemInBinding
 import com.example.tucha.databinding.MessageItemOutBinding
 import com.example.tucha.domain.DomainMessage
+import com.example.tucha.ui.fragment.MessagesFragment
 
 class MessagesListAdapter()
     : ListAdapter<DomainMessage, MessagesListAdapter.ViewHolder>(DiffCallback) {
+    private val MESSAGE_RECEIVED = 0
+    private val MESSAGE_SENT = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        if (viewType == MESSAGE_VIEW_TYPE.MESSAGE_SENT.ordinal) {
+        if (viewType == MESSAGE_SENT) {
             return SentMessageViewHolder(
                 MessageItemOutBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -37,9 +41,9 @@ class MessagesListAdapter()
     override fun getItemViewType(position: Int): Int {
         val currentType = getItem(position).out
         if (currentType == 0) {
-            return MESSAGE_VIEW_TYPE.MESSAGE_RECEIVED.ordinal
+            return MESSAGE_RECEIVED
         } else {
-            return MESSAGE_VIEW_TYPE.MESSAGE_SENT.ordinal
+            return MESSAGE_SENT
         }
 
     }
@@ -50,32 +54,63 @@ class MessagesListAdapter()
     }
 
     abstract class ViewHolder(view: View) :
-        RecyclerView.ViewHolder(view) {
+        RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener {
 
         abstract fun bind(message: DomainMessage)
     }
 
     class SentMessageViewHolder(private var binding: MessageItemOutBinding) :
         ViewHolder(binding.root) {
+        private var currentMessageId = 0
 
         override fun bind(message: DomainMessage) {
+            currentMessageId = message.id
             binding.messageContent.text = message.text
             binding.timestamp.text = message.formattedTimestamp
+            binding.messageCard.setOnCreateContextMenuListener(this)
+        }
+
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            if (menu == null) return
+            val currentId = currentMessageId
+            menu.apply {
+                add(bindingAdapterPosition, currentId, MessagesFragment.FAVORITE, "Favorite")
+                add(bindingAdapterPosition, currentId, MessagesFragment.FORWARD, "Forward")
+                add(bindingAdapterPosition, currentId, MessagesFragment.EDIT, "Edit")
+                add(bindingAdapterPosition, currentId, MessagesFragment.DELETE, "Delete")
+            }
         }
     }
 
     class ReceivedMessageViewHolder(private var binding: MessageItemInBinding) :
         ViewHolder(binding.root) {
+        private var currentMessageId = 0
 
         override fun bind(message: DomainMessage) {
+            currentMessageId = message.id
             binding.messageContent.text = message.text
             binding.timestamp.text = message.formattedTimestamp
+            binding.messageCard.setOnCreateContextMenuListener(this)
         }
-    }
 
-    enum class MESSAGE_VIEW_TYPE{
-        MESSAGE_RECEIVED,
-        MESSAGE_SENT
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            if (menu == null) return
+            val currentId = currentMessageId
+            menu.apply {
+                add(bindingAdapterPosition, currentId, MessagesFragment.FAVORITE, "Favorite")
+                add(bindingAdapterPosition, currentId, MessagesFragment.FORWARD, "Forward")
+                add(bindingAdapterPosition, currentId, MessagesFragment.DELETE, "Delete")
+            }
+
+        }
     }
 
     companion object {

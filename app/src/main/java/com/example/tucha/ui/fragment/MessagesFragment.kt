@@ -2,6 +2,7 @@ package com.example.tucha.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,6 +21,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MessagesFragment : Fragment() {
+    companion object{
+        const val FAVORITE = 1
+        const val FORWARD = 2
+        const val EDIT = 3
+        const val DELETE = 4
+    }
+
     private val viewModel: MessagesViewModel by viewModels {
         val app = (activity?.application) as TuchaApplication
         val currentDialog = arguments?.let { MessagesFragmentArgs.fromBundle(it).dialog }
@@ -101,5 +109,49 @@ class MessagesFragment : Fragment() {
             Toast.makeText(context, "Please enter message first!", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    private fun favoriteMessage() {
+
+    }
+
+    private fun forwardMessage() {
+
+    }
+
+    private fun deleteMessage(messageId: Int) {
+        viewModel.deleteMessage(messageId)
+    }
+
+    private fun editMessage(messageId: Int, text: String) {
+        viewModel.editTextMessage(messageId, text)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        when(item.order) {
+            FORWARD -> {
+                Toast.makeText(
+                    context,
+                    "FORWARD ${item.itemId}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            FAVORITE -> {
+                Toast.makeText(
+                    context,
+                    "FAVORITE",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            EDIT -> {
+
+//                editMessage(item.itemId, text = )
+            }
+            DELETE -> {
+                deleteMessage(item.itemId)
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 }

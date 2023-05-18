@@ -67,6 +67,37 @@ class MessagesRepository(
                 }
             }
         }
+    }
 
+    suspend fun deleteMessage(dialogId: Int, messageId: Int, messengerType: String) {
+        when(messengerType) {
+            "telegram" -> {
+                withContext(Dispatchers.IO) {
+                    telegramClient.deleteMessage(telegramToken, dialogId, messageId)
+                }
+            }
+            "vk" -> {
+                withContext(Dispatchers.IO) {
+                    vkClient.deleteMessageLocally(vkVersion, vkToken, dialogId, messageId.toString())
+                }
+            }
+        }
+        localDataSource.messageDao().deleteMessage(dialogId, messageId)
+    }
+
+    suspend fun editTextMessage(dialogId: Int, messageId: Int, text: String, messengerType: String) {
+        when(messengerType) {
+            "telegram" -> {
+                withContext(Dispatchers.IO) {
+                    telegramClient.editTextMessage(telegramToken, dialogId, messageId, text)
+                }
+            }
+            "vk" -> {
+                withContext(Dispatchers.IO) {
+                    vkClient.editTextMessage(vkVersion, vkToken, dialogId, messageId, text)
+                }
+            }
+        }
+//        localDataSource.messageDao().Message(dialogId, messageId)
     }
 }

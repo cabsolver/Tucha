@@ -11,8 +11,6 @@ interface TelegramApiService {
     @GET("/bot{token}/getUpdates")
     suspend fun getUpdates(
         @Path("token") token: String
-
-
     ): TelegramUpdateResponse
 
     @POST("/bot{token}/sendMessage")
@@ -21,5 +19,20 @@ interface TelegramApiService {
         @Query("chat_id") chatId: Int,
         @Query("text") text: String
     ): TelegramSendMessageResponse
+
+    @GET("/bot{token}/deleteMessage")
+    suspend fun deleteMessage(
+        @Path("token") token: String,
+        @Query("chat_id") chatId: Int,
+        @Query("message_id") messageId: Int
+    )
+
+    @GET("/bot{token}/editMessageText")
+    suspend fun editTextMessage(
+        @Path("token") token: String,
+        @Query("chat_id") chatId: Int,
+        @Query("message_id") messageId: Int,
+        @Query("text") text: String
+    )
 }
 

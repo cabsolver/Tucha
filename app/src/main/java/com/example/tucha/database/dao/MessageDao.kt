@@ -18,6 +18,9 @@ interface MessageDao {
     @Query("DELETE FROM messages WHERE user_id = :dialogId")
     suspend fun deleteDialogHistory(dialogId: Int)
 
+    @Query("DELETE FROM messages WHERE (id = :messageId) AND (user_id = :dialogId)")
+    suspend fun deleteMessage(dialogId: Int, messageId: Int)
+
     @Query("SELECT * FROM messages ORDER BY date DESC")
     fun getAllMessages(): Flow<List<DatabaseMessage>>
 

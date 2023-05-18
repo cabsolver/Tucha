@@ -38,4 +38,30 @@ interface VkApiService {
         @Query("random_id") randomId: Int = Random().nextInt(),
         @Query("message") message: String
     )
+
+    @GET("messages.edit")
+    suspend fun editTextMessage(
+        @Query("v") version: String,
+        @Query("access_token") token: String,
+        @Query("peer_id") userId: Int,
+        @Query("message_id") messageId: Int,
+        @Query("message") message: String
+    )
+
+    @GET("messages.delete")
+    suspend fun deleteMessageLocally(
+        @Query("v") version: String,
+        @Query("access_token") token: String,
+        @Query("peer_id") chatId: Int,
+        @Query("message_ids") messageIds: String
+    )
+
+    @GET("messages.delete")
+    suspend fun deleteMessageForAll(
+        @Query("v") version: String,
+        @Query("access_token") token: String,
+        @Query("peer_id") chatId: Int,
+        @Query("message_ids") messageIds: String,
+        @Query("delete_for_all") deleteForAll: Int = 1
+    )
 }

@@ -9,6 +9,7 @@ import com.example.tucha.domain.DomainMessage
 import com.example.tucha.repository.MessagesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.io.IOException
 
 class MessagesViewModel(
@@ -31,6 +32,22 @@ class MessagesViewModel(
         try {
             messagesRepository.sendTextMessage(dialog.id, dialog.messengerType, message)
         } catch (networkError: IOException) {
+            Log.d("DialogTest", networkError.message!!)
+        }
+    }
+
+    fun deleteMessage(messageId: Int) = viewModelScope.launch {
+        try {
+            messagesRepository.deleteMessage(dialog.id, messageId, dialog.messengerType)
+        } catch (networkError: HttpException) {
+            Log.d("DialogTest", networkError.message!!)
+        }
+    }
+
+    fun editTextMessage(messageId: Int, text: String) = viewModelScope.launch {
+        try {
+            messagesRepository.editTextMessage(dialog.id, messageId, text, dialog.messengerType)
+        } catch (networkError: HttpException) {
             Log.d("DialogTest", networkError.message!!)
         }
     }

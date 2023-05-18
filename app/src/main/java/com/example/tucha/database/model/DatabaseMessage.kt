@@ -2,12 +2,11 @@ package com.example.tucha.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.example.tucha.domain.DomainMessage
 
-@Entity(tableName = "messages")
+@Entity(tableName = "messages", primaryKeys = ["id", "user_id"])
 data class DatabaseMessage(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "user_id") val userId: Int,
     @ColumnInfo(name = "out") val out: Int,
     @ColumnInfo(name = "date") val date: Long,
