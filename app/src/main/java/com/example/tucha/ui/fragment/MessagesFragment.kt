@@ -1,18 +1,22 @@
 package com.example.tucha.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.tucha.R
 import com.example.tucha.TuchaApplication
 import com.example.tucha.databinding.FragmentMessagesBinding
+import com.example.tucha.domain.DomainMessage
 import com.example.tucha.network.TuchaApi
 import com.example.tucha.repository.MessagesRepository
 import com.example.tucha.ui.adapter.MessagesListAdapter
@@ -47,6 +51,7 @@ class MessagesFragment : Fragment() {
     private val count: Int = 20
     private var offset: Int = count
     private val refreshFrequency = 3000L
+    private lateinit var currentMessage: DomainMessage
 
     override fun onStart() {
         super.onStart()
@@ -65,7 +70,9 @@ class MessagesFragment : Fragment() {
     ): View {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
-        val adapter = MessagesListAdapter()
+        val adapter = MessagesListAdapter {
+            currentMessage = it
+        }
         binding.recyclerView.adapter = adapter
 
         lifecycleScope.launch {
@@ -99,6 +106,33 @@ class MessagesFragment : Fragment() {
         viewModel.refreshMessagesFromRepo(count, offset)
     }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        when(item.order) {
+            FORWARD -> {
+                Toast.makeText(
+                    context,
+                    "FORWARD ${item.itemId}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            FAVORITE -> {
+                Toast.makeText(
+                    context,
+                    "FAVORITE",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            EDIT -> {
+                editMessage(currentMessage.id)
+            }
+            DELETE -> {
+                deleteMessage(currentMessage.id)
+            }
+        }
+        return super.onContextItemSelected(item)
+    }
+
     private fun sendMessage() {
         val message = binding.textInput.text.toString()
         if (message.isNotBlank()) {
@@ -123,35 +157,40 @@ class MessagesFragment : Fragment() {
         viewModel.deleteMessage(messageId)
     }
 
-    private fun editMessage(messageId: Int, text: String) {
-        viewModel.editTextMessage(messageId, text)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-
-        when(item.order) {
-            FORWARD -> {
+    private fun editMessage(messageId: Int) {
+        showKeyboard()
+        binding.textInputContainer.setStartIconDrawable(R.drawable.cancel_24)
+        binding.textInputContainer.setStartIconOnClickListener {
+            disableMessageEditing()
+        }
+        binding.textInput.setText(currentMessage.text)
+        binding.textInputContainer.setEndIconOnClickListener {
+            val text = binding.textInput.text.toString()
+            if (text.isNotBlank()) {
+                viewModel.editTextMessage(messageId, text)
+                disableMessageEditing()
+            } else {
                 Toast.makeText(
                     context,
-                    "FORWARD ${item.itemId}",
+                    "Please enter message first!",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-            FAVORITE -> {
-                Toast.makeText(
-                    context,
-                    "FAVORITE",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            EDIT -> {
-
-//                editMessage(item.itemId, text = )
-            }
-            DELETE -> {
-                deleteMessage(item.itemId)
             }
         }
-        return super.onContextItemSelected(item)
+    }
+
+    private fun disableMessageEditing() {
+        binding.textInput.setText("")
+        binding.textInputContainer.isStartIconVisible = false
+        binding.textInputContainer.setStartIconDrawable(R.drawable.attach_file_24)
+        binding.textInputContainer.setEndIconOnClickListener {
+            sendMessage()
+        }
+    }
+
+    private fun showKeyboard() {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.textInput.rootView, InputMethodManager.SHOW_IMPLICIT)
+        binding.textInput.requestFocus()
     }
 }

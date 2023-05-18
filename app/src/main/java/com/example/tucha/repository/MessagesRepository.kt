@@ -98,6 +98,6 @@ class MessagesRepository(
                 }
             }
         }
-//        localDataSource.messageDao().Message(dialogId, messageId)
+        localDataSource.messageDao().updateMessage(dialogId, messageId, text)
     }
 }

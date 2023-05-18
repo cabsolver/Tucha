@@ -61,12 +61,13 @@
         app:layout_constraintTop_toBottomOf="@+id/swipeRefresh"
         app:placeholderTextAppearance="@style/TextAppearance.Material3.BodyMedium"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_send_24">
+        app:endIconDrawable="@drawable/ic_send_24"
+        app:startIconDrawable="@drawable/attach_file_24">
 
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text_input"
-            android:hint="Message"
+            android:hint="@string/message_input_hint"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>

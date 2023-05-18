@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/message_card"
         style="@style/Widget.Material3.CardView.Filled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop = "0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop = "4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="?attr/colorPrimaryInverse"
         app:cardCornerRadius="12dp"
@@ -20,8 +21,7 @@
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?attr/selectableItemBackground">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/message_content"

@@ -4,4 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="message_type">Message type</string>
+    <string name="message_input_hint">Message</string>
+    <string name="forward_message_title">Forward</string>
+    <string name="favorite_message_title">Favorite</string>
 </resources>

@@ -15,6 +15,9 @@ interface MessageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(messages: List<DatabaseMessage>)
 
+    @Query("UPDATE messages SET text = :text WHERE (user_id = :dialogId) AND (id = :messageId)")
+    suspend fun updateMessage(dialogId: Int, messageId: Int, text: String)
+
     @Query("DELETE FROM messages WHERE user_id = :dialogId")
     suspend fun deleteDialogHistory(dialogId: Int)
 
