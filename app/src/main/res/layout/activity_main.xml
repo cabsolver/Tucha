@@ -7,8 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        app:menu="@menu/dialog_option_menu"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_height="?attr/actionBarSize"/>

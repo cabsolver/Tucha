@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/messagesFragment"
         android:name="com.example.tucha.ui.fragment.MessagesFragment"
-        android:label="Dialog"
+        android:label=""
         tools:layout="@layout/fragment_messages">
         <argument
             android:name="dialog"

@@ -3,18 +3,23 @@ package com.example.tucha.ui.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import coil.load
 import com.example.tucha.R
 import com.example.tucha.TuchaApplication
+import com.example.tucha.databinding.ActionBarBinding
 import com.example.tucha.databinding.FragmentMessagesBinding
 import com.example.tucha.domain.DomainMessage
 import com.example.tucha.network.TuchaApi
@@ -53,14 +58,18 @@ class MessagesFragment : Fragment() {
     private val refreshFrequency = 3000L
     private lateinit var currentMessage: DomainMessage
 
-    override fun onStart() {
-        super.onStart()
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onResume() {
         super.onResume()
         refresh(count, 0)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.dialog_option_menu, menu)
     }
 
     override fun onCreateView(
@@ -69,6 +78,28 @@ class MessagesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMessagesBinding.inflate(inflater, container, false)
+
+        val activity = (activity as AppCompatActivity)
+
+        activity.supportActionBar?.setDisplayShowCustomEnabled(true)
+        val actionBarBinding = ActionBarBinding.inflate(inflater, container, false)
+        activity.supportActionBar?.customView = actionBarBinding.root
+        actionBarBinding.apply {
+            dialogName.text = viewModel.dialog.name
+            if (viewModel.dialog.photoUrl == "") {
+                dialogPhoto.setImageResource(R.mipmap.ic_avatar)
+            } else {
+                dialogPhoto.load(viewModel.dialog.photoUrl)
+            }
+            when (viewModel.dialog.messengerType) {
+                "telegram" -> dialogMessengerType.setImageResource(R.drawable.ic_telegram_24)
+                "vk" -> dialogMessengerType.setImageResource(R.drawable.ic_vk_24)
+                else -> dialogMessengerType.setImageResource(R.drawable.ic_send_24)
+            }
+        }
+
+//        activity.supportActionBar?.
+//        activity.supportActionBar?.subtitle = viewModel.dialog.messengerType
 
         val adapter = MessagesListAdapter {
             currentMessage = it
