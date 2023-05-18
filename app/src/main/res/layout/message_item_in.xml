@@ -44,5 +44,15 @@
         app:layout_constraintStart_toEndOf="@id/message_card"
         tools:text="@tools:sample/date/hhmm"/>
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toTopOf="@id/timestamp"
+        app:layout_constraintStart_toEndOf="@id/message_card"
+        tools:text="@tools:sample/date/mmddyy"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

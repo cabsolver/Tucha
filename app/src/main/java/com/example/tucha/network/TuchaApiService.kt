@@ -9,6 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 private const val VK_BASE_URL = "https://api.vk.com/method/"
 private const val TELEGRAM_BASE_URL = "https://api.telegram.org/"
+const val NO_PHOTO_URL = "https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())

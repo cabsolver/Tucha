@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,8 +14,11 @@ import coil.load
 import com.example.tucha.R
 import com.example.tucha.databinding.DialogItemBinding
 import com.example.tucha.domain.DomainDialog
+import java.util.Locale
 
 class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder>(DiffCallback) {
+
+    private var unfilteredList: List<DomainDialog> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -30,6 +34,28 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
         val current = getItem(position)
         holder.bind(current)
     }
+    
+    fun modifyList(list : List<DomainDialog>) {
+        unfilteredList = list
+        submitList(list)
+    }
+
+    fun filter(query: CharSequence?) {
+        val list = mutableListOf<DomainDialog>()
+
+        // perform the data filtering
+        if(!query.isNullOrEmpty()) {
+            list.addAll(unfilteredList.filter {
+                it.name.lowercase(Locale.getDefault()).contains(query.toString()
+                    .lowercase(Locale.getDefault())) ||
+                        it.lastMessage.lowercase(Locale.getDefault()).contains(query.toString()
+                            .lowercase(Locale.getDefault())) })
+        } else {
+            list.addAll(unfilteredList)
+        }
+
+        submitList(list)
+    }
 
     class ViewHolder(private var binding: DialogItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnCreateContextMenuListener {
@@ -38,15 +64,12 @@ class DialogListAdapter : ListAdapter<DomainDialog, DialogListAdapter.ViewHolder
 
             binding.apply {
 
-                if (dialog.unread != null)
+                if (dialog.unread != null) {
+                    unreadCountContainer.isVisible = true
                     unreadCount.text = dialog.unread.toString()
-
-                if (dialog.photoUrl == "") {
-                    dialogPhoto.setImageResource(R.mipmap.ic_avatar)
-                } else {
-                    dialogPhoto.load(dialog.photoUrl)
                 }
 
+                dialogPhoto.load(dialog.photoUrl)
                 dialogName.text = dialog.name
                 date.text = dialog.formattedDate
                 lastMessage.text = dialog.lastMessage

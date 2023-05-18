@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -39,6 +40,7 @@ class DialogFragment : Fragment() {
     private var _binding: FragmentDialogsListBinding? = null
     private val binding get() = _binding!!
 
+    private var isSearching = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,34 @@ class DialogFragment : Fragment() {
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.dialog_list_option_menu, menu)
+        val menuItem = menu.findItem(R.id.search_dialog)
+        val searchView = menuItem.actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+        searchView.setOnCloseListener {
+            isSearching = false
+            lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    while (!isSearching) {
+
+                        refreshDialogs()
+                        delay(viewModel.refreshFrequency)
+                    }
+                }
+            }
+            false
+        }
+        searchView.setOnQueryTextListener (object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                isSearching = true
+                (binding.recyclerView.adapter as DialogListAdapter).filter(newText)
+                return false
+            }
+
+        })
     }
 
     override fun onCreateView(
@@ -65,7 +95,8 @@ class DialogFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                while (true) {
+                while (!isSearching) {
+
                     refreshDialogs()
                     delay(viewModel.refreshFrequency)
                 }
@@ -74,7 +105,7 @@ class DialogFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.dialogs.collect {
-                adapter.submitList(it)
+                adapter.modifyList(it)
             }
         }
 
@@ -84,6 +115,8 @@ class DialogFragment : Fragment() {
         }
         return binding.root
     }
+
+
 
     private fun refreshDialogs() {
         viewModel.refreshDialogsFromRepo()

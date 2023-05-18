@@ -12,9 +12,11 @@ import com.example.tucha.databinding.MessageItemInBinding
 import com.example.tucha.databinding.MessageItemOutBinding
 import com.example.tucha.domain.DomainMessage
 import com.example.tucha.ui.fragment.MessagesFragment
+import java.util.Locale
 
 class MessagesListAdapter(private val onItemClicked: (DomainMessage) -> Unit)
     : ListAdapter<DomainMessage, MessagesListAdapter.ViewHolder>(DiffCallback) {
+    private var unfilteredList: List<DomainMessage> = listOf()
     private val MESSAGE_RECEIVED = 0
     private val MESSAGE_SENT = 1
 
@@ -48,6 +50,25 @@ class MessagesListAdapter(private val onItemClicked: (DomainMessage) -> Unit)
         }
 
     }
+    fun modifyList(list : List<DomainMessage>) {
+        unfilteredList = list
+        submitList(list)
+    }
+
+    fun filter(query: CharSequence?) {
+        val list = mutableListOf<DomainMessage>()
+
+        // perform the data filtering
+        if(!query.isNullOrEmpty()) {
+            list.addAll(unfilteredList.filter {
+                it.text.lowercase(Locale.getDefault()).contains(query.toString()
+                    .lowercase(Locale.getDefault()))})
+        } else {
+            list.addAll(unfilteredList)
+        }
+
+        submitList(list)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val current = getItem(position)
@@ -74,6 +95,7 @@ class MessagesListAdapter(private val onItemClicked: (DomainMessage) -> Unit)
         override fun bind(message: DomainMessage) {
             binding.messageContent.text = message.text
             binding.timestamp.text = message.formattedTimestamp
+            binding.date.text = message.formattedDate
             binding.root.setOnCreateContextMenuListener(this)
         }
 
@@ -96,6 +118,7 @@ class MessagesListAdapter(private val onItemClicked: (DomainMessage) -> Unit)
         override fun bind(message: DomainMessage) {
             binding.messageContent.text = message.text
             binding.timestamp.text = message.formattedTimestamp
+            binding.date.text = message.formattedDate
             binding.root.setOnCreateContextMenuListener(this)
         }
 

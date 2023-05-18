@@ -21,6 +21,12 @@ data class DomainDialog(
             return formatter.format(date*1000)
         }
 
+    val formattedTimestamp: String
+        get() {
+            val formatter = SimpleDateFormat("HH:mm", Locale.US)
+            return formatter.format(date * 1000)
+        }
+
 //    companion object {
 //        fun empty(): DomainDialog {
 //            return DomainDialog(

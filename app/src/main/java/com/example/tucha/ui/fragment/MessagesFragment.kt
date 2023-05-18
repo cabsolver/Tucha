@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -57,6 +58,7 @@ class MessagesFragment : Fragment() {
     private var offset: Int = count
     private val refreshFrequency = 3000L
     private lateinit var currentMessage: DomainMessage
+    private var isSearching = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,33 @@ class MessagesFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.dialog_option_menu, menu)
+        val menuItem = menu.findItem(R.id.search_dialog)
+        val searchView = menuItem.actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+        searchView.setOnCloseListener {
+            isSearching = false
+            lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    while (!isSearching) {
+                        refresh(5, 0)
+                        delay(refreshFrequency)
+                    }
+                }
+            }
+            false
+        }
+        searchView.setOnQueryTextListener (object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                isSearching = true
+                (binding.recyclerView.adapter as MessagesListAdapter).filter(newText)
+                return false
+            }
+
+        })
     }
 
     override fun onCreateView(
@@ -108,7 +137,7 @@ class MessagesFragment : Fragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                while (true) {
+                while (!isSearching) {
                     refresh(5, 0)
                     delay(refreshFrequency)
                 }
@@ -117,7 +146,7 @@ class MessagesFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.messages.collect {
-                adapter.submitList(it)
+                adapter.modifyList(it)
             }
         }
 

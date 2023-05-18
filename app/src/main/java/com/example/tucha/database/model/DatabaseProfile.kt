@@ -4,13 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.tucha.domain.DomainProfile
+import com.example.tucha.network.NO_PHOTO_URL
 
 @Entity(tableName = "profiles")
 data class DatabaseProfile(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String = "",
-    @ColumnInfo(name = "photo_url") val photoUrl: String = ""
+    @ColumnInfo(name = "photo_url") val photoUrl: String = NO_PHOTO_URL
 )
 
 fun List<DatabaseProfile>.asDomainModel(): List<DomainProfile> {

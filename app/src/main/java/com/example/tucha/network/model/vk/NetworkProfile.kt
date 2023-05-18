@@ -1,6 +1,7 @@
 package com.example.tucha.network.model.vk
 
 import com.example.tucha.database.model.DatabaseProfile
+import com.example.tucha.network.NO_PHOTO_URL
 import com.squareup.moshi.Json
 
 data class NetworkProfile(
@@ -8,7 +9,7 @@ data class NetworkProfile(
     @Json(name = "last_name") val lastName: String = "",
     @Json(name = "first_name") val firstName: String = "",
     @Json(name = "sex") val sex: Int = 0,
-    @Json(name = "photo_100") val photoUrl: String = "",
+    @Json(name = "photo_100") val photoUrl: String = NO_PHOTO_URL,
     @Json(name = "online_info") val onlineInfo: NetworkOnlineInfo
 )
 
